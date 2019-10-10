@@ -9,7 +9,7 @@ void restartVars(bool &restartFlag, int &carState, Road &road, NPCCar (&npcCar)[
 
 SDL_Point getMouseXY(SDL_Point mousePosition);
 
-void carControl(SDL_Renderer* render, Car &car, SDL_Point mousePosition, Screen screen, Rain &rain);
+void carControl(Car &car, SDL_Point mousePosition, Screen screen, Rain &rain);
 
 bool carCollision(SDL_Point mousePosition, Car &car, NPCCar (&npcCar)[2], Screen screen, int &carState, Animation &explosion);
 

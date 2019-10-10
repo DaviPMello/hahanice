@@ -28,8 +28,8 @@ using namespace std;
 int main(){
     ///Hides console window:
     //Esconde a janela do console:
-    //HWND windowHandle = GetConsoleWindow();
-    //ShowWindow(windowHandle, SW_HIDE);
+    HWND windowHandle = GetConsoleWindow();
+    ShowWindow(windowHandle, SW_HIDE);
     //==========================INIT==========================//
     SDL_Init(SDL_INIT_EVERYTHING);
     IMG_Init(IMG_INIT_PNG);
@@ -126,12 +126,13 @@ int main(){
             }
 
             //==========================CONTROLS==========================//
+
             ///Lets the player controls the car if he hasn't lost the game.
             //Permite que o jogador controle o carro se ele ainda não perdeu.
             if(carState > 0){
                 ///carControl() is defined in controls.cpp, open it for more info about the function.
                 //carControl() é definida no arquivo "controls.cpp", acesse-o para mais informações sobre a função.
-                //carControl(render, car, mouse, screen, rain);
+                carControl(car, mouse, screen, rain);
             }
 
             //==========================RECTS==========================//
@@ -191,7 +192,6 @@ int main(){
 
             //=============================RAIN==============================//
             toggleRain(render, rain, img.rainSprite, score);
-            carControl(render, car, mouse, screen, rain);
 
             //==========================WRITE=SCORE==========================//
             ///writeText() is defined in text.cpp, open it for more info about the function.

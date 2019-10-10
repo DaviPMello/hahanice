@@ -365,9 +365,9 @@ void toggleNight(SDL_Renderer* render, Night &night, int score){
 }
 
 void toggleRain(SDL_Renderer* render, Rain &rain, SDL_Texture* sprite, int score){
-    if(score == rain.start){
+    if(score == rain.start && rain.active == false){
         rain.active = true;
-        rain.puddleCount = 600;
+        rain.puddleCount = 500;
     }
     if(rain.active){
         if(score >= rain.start && score < rain.start + 40){
@@ -380,7 +380,7 @@ void toggleRain(SDL_Renderer* render, Rain &rain, SDL_Texture* sprite, int score
         } else {
             rain.start = score + 40 + (rand() % 30);
             rain.active = false;
-            rain.puddleCount = 600;
+            rain.puddleCount = 500;
         }
     }
     if(rain.puddleCount > 0){

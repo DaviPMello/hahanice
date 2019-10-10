@@ -187,7 +187,7 @@ void restartVars(bool &restart, int &carState, Road &road, NPCCar (&npcCar)[2], 
         lamp = {800, 0};
         restart = false;
         night = {0, false};
-        rain = {0, 1 /*its 40 + (rand() % 30)*/, 0, 0, {0, 0}, false, {0, 0, 1000, 600}};
+        rain = {0, 40 + (rand() % 30), 0, 0, {0, 0}, false, {0, 0, 1000, 600}};
     }
 }
 
@@ -214,15 +214,14 @@ SDL_Point getMouseXY(SDL_Point mouse){
 //
 //Move o carro com o mouse.
 
-void carControl(SDL_Renderer* render, Car &car, SDL_Point mouse, Screen screen, Rain &rain){
-    if(!rain.active ^ rain.puddleCount){
+void carControl(Car &car, SDL_Point mouse, Screen screen, Rain &rain){
+    if(!rain.active ^ (rain.puddleCount > 0)){
         ///Delays the car's movement.
         //Atrasa o movemento do carro.
         double newMouseY = mouse.y - 20 * screen.hScale;
         double newMouseX = mouse.x - 20 * screen.hScale;
         car.y += ((newMouseY - car.y)/10);
         car.x += ((newMouseX - car.x)/10);
-
         ///Sets the angles for the curves.
         //Muda o ângulo do carro nas curvas.
         car.angle.value = (newMouseY - car.y)/5;
@@ -231,23 +230,21 @@ void carControl(SDL_Renderer* render, Car &car, SDL_Point mouse, Screen screen, 
         //Atrasa o movemento do carro.
         double newMouseY = mouse.y - 20 * screen.hScale;
         double newMouseX = mouse.x - 20 * screen.hScale;
-        rain.driftCounter++;
-        /*rain.driftY += mouse.y - (screen.h/2);
-        rain.driftY += mouse.y - rain.driftY;
-        std::cout << rain.driftY << "\n";
-        SDL_Rect nice = {50, (rain.driftY * 2 + (screen.h/2)), 50, 50};
-        SDL_SetRenderDrawColor(render, 255, 0, 0, 255);
-        SDL_RenderFillRect(render, &nice);*/
-
-        if(abs(newMouseY - car.y) < 60){
-            rain.drift.y += (newMouseY - car.y)*0.01;// - (newMouseY - car.y);
-            std::cout << rain.drift.y;
-            car.y += rain.drift.y;
-        } else {
+        if(abs(newMouseY - car.y) > 200 * screen.hScale){
+            rain.driftCounter = 15;
+        }
+        if(rain.driftCounter > 0){
+            rain.driftCounter--;
+        }
+        if (rain.driftCounter == 0) {
+            newMouseY = mouse.y - 20 * screen.hScale;
             car.y += ((newMouseY - car.y)/10);
+            rain.drift.y = 0;
+        } else {
+            rain.drift.y += ((newMouseY - car.y)/200);
+            car.y += rain.drift.y;
         }
         car.x += ((newMouseX - car.x)/10);
-
         ///Sets the angles for the curves.
         //Muda o ângulo do carro nas curvas.
         car.angle.value = ((mouse.y - 20 * screen.hScale) - car.y)/5;

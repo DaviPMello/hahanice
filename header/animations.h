@@ -19,7 +19,7 @@ void explodeAnimation(SDL_Renderer *render, Img img, Animation &explosion, Scree
 
 void toggleNight(SDL_Renderer* render, Night &night, int score);
 
-void toggleRain(SDL_Renderer* render, Rain &rain, SDL_Texture* sprite, int score);
+void toggleRain(SDL_Renderer *render, Rain &rain, SDL_Texture* sprite, int score);
 
 Img initImg(SDL_Renderer* render);
 
